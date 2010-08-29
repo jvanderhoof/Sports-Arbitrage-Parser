@@ -1,0 +1,6 @@
+adapter: mysql
+host: localhost
+username: root
+password: root
+database: sports-betting_development
+socket: /Applications/MAMP/tmp/mysql/mysql.sock
