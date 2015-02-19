@@ -73,12 +73,14 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get install apache2
   # SHELL
 
-=begin
+#=begin
+  # Remove base Ruby (which is 1.9.3)
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get remove ruby -y
     sudo apt-get autoremove -y
   SHELL
 
+  # Install Ruby 1.8.7 from source
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update -qq
     sudo apt-get install -y git-core curl build-essential bison openssl libreadline6 libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev autoconf libc6-dev ssl-cert subversion libffi-dev wget
@@ -87,14 +89,31 @@ Vagrant.configure(2) do |config|
     cd /tmp/ruby-1.8.7-p374 && ./configure && make && sudo make install
     rm /tmp/ruby-1.8.7-p374.tar.gz && rm -rf /tmp/ruby-1.8.7-p374
   SHELL
-=end
+
+  # Install Ruby Gems from source
   config.vm.provision "shell", inline: <<-SHELL
     wget -P /tmp/ http://production.cf.rubygems.org/rubygems/rubygems-1.3.7.tgz
     cd /tmp && tar -zxvf rubygem*.tgz
     cd /tmp/rubygem* && ruby setup.rb
     rm -rf /tmp/rubygem*
   SHELL
+#=end
 
-  config.vm.provision "shell", inline: 'gem install bundler -v 1.0.14 --no-rdoc --no-ri'
+  # Install MySQL
+  config.vm.provision "shell", inline: <<-SHELL
+    debconf-set-selections <<< 'mysql-server mysql-server/root_password password'
+    debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password'
+    sudo apt-get update -qq
+    sudo apt-get install -y mysql-server-5.5
+  SHELL
+
+  # Install required gems (Bundler is not working, and I have no idea why)
+  # gem install bundler -v 1.0.14 --no-rdoc --no-ri
+  config.vm.provision "shell", inline: <<-SHELL
+    gem install hpricot --no-rdoc --no-ri
+    gem install mysql --no-rdoc --no-ri
+    gem install httpclient --no-rdoc --no-ri
+    gem install rails -v 2.3.18 --no-rdoc --no-ri
+  SHELL
 
 end

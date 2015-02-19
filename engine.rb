@@ -13,9 +13,9 @@ threads = []
 threads << Thread.new() {
   puts "start pinnacle"
 
-  proxy="http://sugar.bostonlogic.com/proxy.php?url="
+  #proxy="http://sugar.bostonlogic.com/proxy.php?url="
 
-  browser = PinnacleBrowser.new(proxy+"www.pinnaclesports.com/", "Pinnacle", 1)
+  browser = PinnacleBrowser.new("http://www.pinnaclesports.com/", "Pinnacle", 1)
 
   pages = {'2' => 'League/Football/NFL/1/Lines.aspx',
           '3' => 'League/Basketball/NBA/1/Lines.aspx',
@@ -57,7 +57,7 @@ threads << Thread.new() {
 
 threads << Thread.new() {
   puts "starting bet us"
-  
+
   browser = BetUsBrowser.new("http://www.betus.com/", "Bet Us", 4)
 
   pages = {'2' => 'sportsbook/nfl-football-game-lines.aspx',
