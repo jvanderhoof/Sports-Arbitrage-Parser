@@ -15,7 +15,7 @@ You can launch the VM by navigating to the root of this project and running:
   vagrant up
 ```
 
-This will provision an Ubuntu 14.04 server with Ruby 1.8.7 and MySQL installed as well as required gems.  MySQL is installed with no root password for easy local development.  The code for this project will be mounted in /home/vagrant/app. You can work outside the VM, using whatever editor you'd like, and run the code in the vm to test.
+This will provision an Ubuntu 14.04 server with Ruby 1.8.7 and MySQL installed as well as required gems.  MySQL is installed with a root password of 'root'.  The code for this project will be mounted in /home/vagrant/app. You can work outside the VM, using whatever editor you'd like, and run the code in the vm to test.
 
 To log into the VM:
 
